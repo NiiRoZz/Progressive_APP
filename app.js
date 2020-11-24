@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
             var btnGeoloc = document.querySelector("#bcStations .btnGeoloc");
             if (btnGeoloc.classList.toggle("active"))
 			{
-				id = window.geolocation.watchPostion(function (pos) {
+				id = navigator.geolocation.watchPostion(function (pos) {
 					currPos = pos;
 				});
 				
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
 			}
 			else
 			{
-				window.geolocation.clearWatch(id);
+				navigator.geolocation.clearWatch(id);
 				fSort = null;
 			}
             
