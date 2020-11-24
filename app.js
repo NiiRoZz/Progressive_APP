@@ -14,13 +14,48 @@ document.addEventListener("DOMContentLoaded", function (_e) {
     /******************************************************************
             Fonctions à compléter dans la dernière partie du TP 
     ******************************************************************/
+	var id;
+	var currPos;
+	
+	function getDistance(lat1, lon1, lat2, lon2)
+	{
+		const R = 6371e3; // metres
+		const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+		const φ2 = lat2 * Math.PI/180;
+		const Δφ = (lat2-lat1) * Math.PI/180;
+		const Δλ = (lon2-lon1) * Math.PI/180;
+
+		const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+				  Math.cos(φ1) * Math.cos(φ2) *
+				  Math.sin(Δλ/2) * Math.sin(Δλ/2);
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		return R * c; // in metres
+	}
     
     // Fonction exécutée quand on clique sur l'icône de géolocalisation 
     function geoloc() {
         if ("geolocation" in navigator) {
             var btnGeoloc = document.querySelector("#bcStations .btnGeoloc");
-            btnGeoloc.classList.toggle("active");
-            // TODO
+            if (btnGeoloc.classList.toggle("active"))
+			{
+				id = window.geolocation.watchPostion(function (pos) {
+					currPos = pos;
+				});
+				
+				fSort = function (id1, id2) {
+					var station1 = stations[id1];
+					var station2 = stations[id2];
+					
+					return (getDistance(currPos.coords.latitude, currPos.coords.longitude, station1.latitude, station1.longitude) > getDistance(currPos.coords.latitude, currPos.coords.longitude, station2.latitude, station2.longitude));
+				};
+			}
+			else
+			{
+				window.geolocation.clearWatch(id);
+				fSort = null;
+			}
+            
         }
         else {
             alert("Votre appareil ne supporte pas la géolocalisation.");    
