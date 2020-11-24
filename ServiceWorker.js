@@ -47,18 +47,18 @@ self.addEventListener('fetch', function (event) {
   event.respondWith(
     // Try the cache
     caches
-      .match(event.request)
-      .then(function (response) {
-        // Fall back to network
-        return response || fetch(event.request).then(function (responseNet) {
-			console.log('[Service Worker] Caching new resource: '+e.request.url);
-            cache.put(event.request, responseNet.clone());
-            return responseNet;
-          });
-      })
-      .catch(function () {
-        // If both fail, show a generic fallback:
-        console.log('[Service Worker] Resource fetch failed: '+e.request.url);
-      }),
-  );
+		.match(event.request)
+		.then(function (response) {
+			// Fall back to network
+			return response || fetch(event.request).then(function (responseNet) {
+				console.log('[Service Worker] Caching new resource: '+e.request.url);
+				cache.put(event.request, responseNet.clone());
+				return responseNet;
+			});
+		})
+		.catch(function () {
+		// If both fail, show a generic fallback:
+		console.log('[Service Worker] Resource fetch failed: '+e.request.url);
+		})
+	);
 });
