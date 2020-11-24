@@ -50,10 +50,12 @@ self.addEventListener('fetch', function (event) {
 		.match(event.request)
 		.then(function (response) {
 			// Fall back to network
-			return response || fetch(event.request).then(function (responseNet) {
-				console.log('[Service Worker] Caching new resource: '+event.request.url);
-				cache.put(event.request, responseNet.clone());
-				return responseNet;
+			return response || fetch(e.request).then((response) => {
+				return caches.open(cacheName).then((cache) => {
+					console.log('[Service Worker] Caching new resource: '+event.request.url);
+					cache.put(event.request, response.clone());
+					return response;
+				});
 			});
 		})
 		.catch(function () {
