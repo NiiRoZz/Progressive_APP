@@ -40,12 +40,12 @@ self.addEventListener('fetch', function (event) {
 					cache.put(event.request, response.clone());
 					return response;
 				});
+			})
+			.catch(function () {
+				// If both fail, show a generic fallback:
+				console.log('[Service Worker] Resource fetch failed: '+event.request.url);
+				return caches.match('/index.html');
 			});
-		})
-		.catch(function () {
-			// If both fail, show a generic fallback:
-			console.log('[Service Worker] Resource fetch failed: '+event.request.url);
-			return caches.match('/index.html');
 		}),
 	);
 });
