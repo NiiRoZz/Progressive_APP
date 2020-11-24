@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
             Fonctions à compléter dans la dernière partie du TP 
     ******************************************************************/
 	var id;
-	var currPos;
+	var currPos = {["coords"]: {["latitude"]: 0, ["longitude"]: 0}};
 	
 	function getDistance(lat1, lon1, lat2, lon2)
 	{
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
             if (btnGeoloc.classList.toggle("active"))
 			{
 				console.log(navigator.geolocation);
-				id = navigator.geolocation.getCurrentPosition(position => {
+				id = navigator.geolocation.watchPosition(position => {
 				  console.log(position.coords.latitude);
 				  console.log(position.coords.longitude);
 				  currPos = position;
