@@ -27,10 +27,10 @@ self.addEventListener('install', (e) => {
 	);
 });
 
-/*self.addEventListener('fetch', (e) => {
-    console.log('[Service Worker] Fetched resource ' + e.request.url);
-	e.respondWith(
-		caches.match(e.request).then((r) => {
+/*self.addEventListener('fetch', (event) => {
+    console.log('[Service Worker] Fetched resource ' + event.request.url);
+	event.respondWith(
+		caches.match(event.request).then((r) => {
 			console.log('[Service Worker] Fetching resource: '+e.request.url);
 			return r || fetch(e.request).then((response) => {
 				return caches.open(cacheName).then((cache) => {
@@ -45,8 +45,23 @@ self.addEventListener('install', (e) => {
 
 self.addEventListener('fetch', function (event) {
   event.respondWith(
-    fetch(event.request).catch(function () {
-      return caches.match(event.request);
-    }),
+    // Try the cache
+    caches
+      .match(event.request)
+      .then(function (response) {
+        // Fall back to network
+        return response || fetch(event.request).then(function (response) {
+			console.log('[Service Worker] Caching new resource: '+e.request.url);
+            cache.put(event.request, response.clone());
+            return response;
+          });
+      })
+      .catch(function () {
+        // If both fail, show a generic fallback:
+        return caches.match('/offline.html');
+        // However, in reality you'd have many different
+        // fallbacks, depending on URL and headers.
+        // Eg, a fallback silhouette image for avatars.
+      }),
   );
 });
