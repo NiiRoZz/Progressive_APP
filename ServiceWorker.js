@@ -50,18 +50,15 @@ self.addEventListener('fetch', function (event) {
       .match(event.request)
       .then(function (response) {
         // Fall back to network
-        return response || fetch(event.request).then(function (response) {
+        return response || fetch(event.request).then(function (responseNet) {
 			console.log('[Service Worker] Caching new resource: '+e.request.url);
-            cache.put(event.request, response.clone());
-            return response;
+            cache.put(event.request, responseNet.clone());
+            return responseNet;
           });
       })
       .catch(function () {
         // If both fail, show a generic fallback:
-        return caches.match('/offline.html');
-        // However, in reality you'd have many different
-        // fallbacks, depending on URL and headers.
-        // Eg, a fallback silhouette image for avatars.
+        console.log('[Service Worker] Resource fetch failed: '+e.request.url);
       }),
   );
 });
