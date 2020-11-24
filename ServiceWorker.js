@@ -27,22 +27,6 @@ self.addEventListener('install', (e) => {
 	);
 });
 
-/*self.addEventListener('fetch', (event) => {
-    console.log('[Service Worker] Fetched resource ' + event.request.url);
-	event.respondWith(
-		caches.match(event.request).then((r) => {
-			console.log('[Service Worker] Fetching resource: '+e.request.url);
-			return r || fetch(e.request).then((response) => {
-				return caches.open(cacheName).then((cache) => {
-					console.log('[Service Worker] Caching new resource: '+e.request.url);
-					cache.put(e.request, response.clone());
-					return response;
-				});
-			});
-		})
-	);
-});*/
-
 self.addEventListener('fetch', function (event) {
   event.respondWith(
     // Try the cache
