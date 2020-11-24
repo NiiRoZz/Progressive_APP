@@ -1,6 +1,5 @@
 var cacheName = 'ginkobus-v1';
 var appShellFiles = [
-	'/',
   'index.html',
   'app.js',
   'style.css',
