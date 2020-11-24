@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
 				id = navigator.geolocation.getCurrentPosition(position => {
 				  console.log(position.coords.latitude);
 				  console.log(position.coords.longitude);
-				  currPos = pos;
+				  currPos = position;
 				});
 				
 				fSort = function (id1, id2) {
