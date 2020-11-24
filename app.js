@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function (_e) {
 				fSort = null;
 			}
             
+			remplirStations();
         }
         else {
             alert("Votre appareil ne supporte pas la géolocalisation.");    
