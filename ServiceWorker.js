@@ -28,13 +28,12 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', function (event) {
-  event.respondWith(
-    // Try the cache
-    caches
-		.match(event.request)
-		.then(function (response) {
+	event.respondWith(
+		// Try the cache
+		caches.match(event.request).then(function (response) {
+			console.log('[Service Worker] Fetching resource: '+event.request.url);
 			// Fall back to network
-			return response || fetch(e.request).then((response) => {
+			return response || fetch(event.request).then((response) => {
 				return caches.open(cacheName).then((cache) => {
 					console.log('[Service Worker] Caching new resource: '+event.request.url);
 					cache.put(event.request, response.clone());
