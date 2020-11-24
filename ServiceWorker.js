@@ -43,7 +43,7 @@ self.addEventListener('fetch', function (event) {
 			.catch(function () {
 				// If both fail, show a generic fallback:
 				console.log('[Service Worker] Resource fetch failed: '+event.request.url);
-				return caches.match('/index.html');
+				return caches.match('index.html');
 			});
 		}),
 	);
