@@ -40,8 +40,10 @@ document.addEventListener("DOMContentLoaded", function (_e) {
             if (btnGeoloc.classList.toggle("active"))
 			{
 				console.log(navigator.geolocation);
-				id = navigator.geolocation.watchPostion(function (pos) {
-					currPos = pos;
+				id = navigator.geolocation.getCurrentPosition(position => {
+				  console.log(position.coords.latitude);
+				  console.log(position.coords.longitude);
+				  currPos = pos;
 				});
 				
 				fSort = function (id1, id2) {
